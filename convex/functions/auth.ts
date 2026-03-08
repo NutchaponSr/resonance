@@ -2,12 +2,29 @@ import bcrypt from "bcryptjs";
 import authConfig from "./auth.config";
 
 import { convex } from "better-convex/auth";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 import { requireActionCtx } from "better-convex/server";
 
 import { internal } from "./_generated/api";
 import { defineAuth } from "./generated/auth";
 
 import { buildEmailTemplate } from "./emailTemplates";
+
+const VALID_DOMAINS = [
+  "gmail.com",
+  "yahoo.com",
+  "hotmail.com",
+  "outlook.com",
+  "icloud.com",
+];
+
+const normalizeName = (name: string) => {
+  return name
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/[^a-zA-Z\s'-]/g, "")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
 export default defineAuth((ctx) => {
   return {
@@ -48,7 +65,6 @@ export default defineAuth((ctx) => {
     emailVerification: {
       expiresIn: 60 * 60,
       sendOnSignUp: true,
-      sendOnSignIn: true,
       autoSignInAfterVerification: true,
       sendVerificationEmail: async ({ user, url }) => {
         const link = new URL(url);
@@ -90,10 +106,45 @@ export default defineAuth((ctx) => {
       expiresIn: 60 * 60 * 24 * 30, // 30 days
       updateAge: 60 * 60 * 24 * 15, // 15 days
     },
-    plugins: [
-      convex({
-        authConfig,
+    hooks: {
+      before: createAuthMiddleware(async (ctx) => {
+        if (ctx.path ===  "/sign-up/email") {
+          const email = String(ctx.body.email);
+          const domain = email.split("@")[1];
+
+          if (!VALID_DOMAINS.includes(domain)) {
+            throw new APIError("BAD_REQUEST", {
+              message: "Invalid email domain",
+            });
+          }
+
+          const name = normalizeName(ctx.body.name);
+
+          return {
+            context: {
+              ...ctx,
+              body: {
+                ...ctx.body,
+                name,
+              },
+            },
+          }
+        }
+
+        if (ctx.path === "/update-user") {
+          const name = normalizeName(ctx.body.name);
+
+          return {
+            context: {
+              ...ctx,
+              body: {
+                ...ctx.body,
+                name,
+              },
+            },
+          };
+        }
       }),
-    ],
+    },
   };
 });
