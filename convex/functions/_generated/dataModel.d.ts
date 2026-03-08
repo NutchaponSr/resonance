@@ -27,6 +27,47 @@ import type { GenericId } from "convex/values";
  */
 
 export type DataModel = {
+  account: {
+    document: {
+      accessToken?: null | string;
+      accessTokenExpiresAt?: null | number;
+      accountId: string;
+      createdAt?: number;
+      idToken?: null | string;
+      password?: null | string;
+      providerId: string;
+      refreshToken?: null | string;
+      refreshTokenExpiresAt?: null | number;
+      scope?: null | string;
+      updatedAt: number;
+      userId: Id<"user">;
+      _id: Id<"account">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "accessToken"
+      | "accessTokenExpiresAt"
+      | "accountId"
+      | "createdAt"
+      | "_creationTime"
+      | "_id"
+      | "idToken"
+      | "password"
+      | "providerId"
+      | "refreshToken"
+      | "refreshTokenExpiresAt"
+      | "scope"
+      | "updatedAt"
+      | "userId";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      accountId: ["accountId", "_creationTime"];
+      userId: ["userId", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
   aggregate_bucket: {
     document: {
       count: number;
@@ -258,6 +299,27 @@ export type DataModel = {
     searchIndexes: {};
     vectorIndexes: {};
   };
+  jwks: {
+    document: {
+      createdAt?: number;
+      privateKey: string;
+      publicKey: string;
+      _id: Id<"jwks">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "_id"
+      | "privateKey"
+      | "publicKey";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
   migration_run: {
     document: {
       allowDrift: boolean;
@@ -342,34 +404,87 @@ export type DataModel = {
     searchIndexes: {};
     vectorIndexes: {};
   };
-  posts: {
+  session: {
     document: {
-      published?: null | boolean;
-      title: string;
+      createdAt?: number;
+      expiresAt: number;
+      ipAddress?: null | string;
+      token: string;
+      updatedAt: number;
+      userAgent?: null | string;
       userId: Id<"user">;
-      _id: Id<"posts">;
+      _id: Id<"session">;
       _creationTime: number;
     };
-    fieldPaths: "_creationTime" | "_id" | "published" | "title" | "userId";
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "expiresAt"
+      | "_id"
+      | "ipAddress"
+      | "token"
+      | "updatedAt"
+      | "userAgent"
+      | "userId";
     indexes: {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
-      by_user: ["userId", "_creationTime"];
+      token: ["token", "_creationTime"];
+      userId: ["userId", "_creationTime"];
     };
     searchIndexes: {};
     vectorIndexes: {};
   };
   user: {
     document: {
+      createdAt?: number;
       email: string;
+      emailVerified: boolean;
+      image?: null | string;
       name: string;
+      updatedAt: number;
       _id: Id<"user">;
       _creationTime: number;
     };
-    fieldPaths: "_creationTime" | "email" | "_id" | "name";
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "email"
+      | "emailVerified"
+      | "_id"
+      | "image"
+      | "name"
+      | "updatedAt";
     indexes: {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
+      email: ["email", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
+  verification: {
+    document: {
+      createdAt?: null | number;
+      expiresAt: number;
+      identifier: string;
+      updatedAt?: null | number;
+      value: string;
+      _id: Id<"verification">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "expiresAt"
+      | "_id"
+      | "identifier"
+      | "updatedAt"
+      | "value";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      identifier: ["identifier", "_creationTime"];
     };
     searchIndexes: {};
     vectorIndexes: {};

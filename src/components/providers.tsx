@@ -1,13 +1,15 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
-  ConvexProvider,
   ConvexReactClient,
   getQueryClientSingleton,
   getConvexQueryClientSingleton,
 } from 'better-convex/react';
-import { CRPCProvider } from '@/lib/convex/crpc';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ConvexAuthProvider } from 'better-convex/auth/client';
+
+import { CRPCProvider } from '@/lib/crpc';
+import { authClient } from '@/lib/auth-client';
 
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -19,9 +21,9 @@ function createQueryClient() {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ConvexProvider client={convex}>
+    <ConvexAuthProvider authClient={authClient} client={convex}>
       <QueryProvider>{children}</QueryProvider>
-    </ConvexProvider>
+    </ConvexAuthProvider>
   );
 }
 

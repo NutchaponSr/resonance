@@ -19,33 +19,7 @@ import type { GenericId as Id } from "convex/values";
  * const myFunctionReference = api.myModule.myFunction;
  * ```
  */
-export declare const api: {
-  user: {
-    create: FunctionReference<
-      "mutation",
-      "public",
-      { email: string; name: string },
-      string
-    >;
-    list: FunctionReference<
-      "query",
-      "public",
-      { limit?: number },
-      Array<{
-        createdAt: any;
-        email: string;
-        id: string;
-        name: string;
-        posts: Array<{
-          createdAt: any;
-          id: string;
-          published: boolean | null;
-          title: string;
-        }>;
-      }>
-    >;
-  };
-};
+export declare const api: {};
 
 /**
  * A utility for referencing Convex functions in your app's internal API.
@@ -56,37 +30,142 @@ export declare const api: {
  * ```
  */
 export declare const internal: {
+  email: {
+    sendEmail: FunctionReference<
+      "action",
+      "internal",
+      { html?: string; subject: string; text?: string; to: string },
+      any
+    >;
+  };
   generated: {
-    server: {
-      aggregateBackfill: FunctionReference<"mutation", "internal", any, any>;
-      aggregateBackfillChunk: FunctionReference<
+    auth: {
+      create: FunctionReference<
         "mutation",
         "internal",
-        any,
+        { input: { data: any; model: string }; select?: Array<string> },
         any
       >;
-      aggregateBackfillStatus: FunctionReference<
+      deleteMany: FunctionReference<
         "mutation",
         "internal",
-        any,
+        {
+          input: { model: string; where?: Array<any> };
+          paginationOpts: {
+            cursor: string | null;
+            endCursor?: string | null;
+            id?: number;
+            maximumBytesRead?: number;
+            maximumRowsRead?: number;
+            numItems: number;
+          };
+        },
         any
       >;
-      migrationCancel: FunctionReference<"mutation", "internal", any, any>;
-      migrationRun: FunctionReference<"mutation", "internal", any, any>;
-      migrationRunChunk: FunctionReference<"mutation", "internal", any, any>;
-      migrationStatus: FunctionReference<"mutation", "internal", any, any>;
-      reset: FunctionReference<"action", "internal", any, any>;
-      resetChunk: FunctionReference<
+      deleteOne: FunctionReference<
         "mutation",
         "internal",
-        { cursor: string | null; tableName: string },
+        { input: { model: string; where?: Array<any> } },
         any
       >;
-      scheduledDelete: FunctionReference<"mutation", "internal", any, any>;
-      scheduledMutationBatch: FunctionReference<
+      findMany: FunctionReference<
+        "query",
+        "internal",
+        {
+          join?: any;
+          limit?: number;
+          model: string;
+          offset?: number;
+          paginationOpts: {
+            cursor: string | null;
+            endCursor?: string | null;
+            id?: number;
+            maximumBytesRead?: number;
+            maximumRowsRead?: number;
+            numItems: number;
+          };
+          sortBy?: { direction: "asc" | "desc"; field: string };
+          where?: Array<{
+            connector?: "AND" | "OR";
+            field: string;
+            operator?:
+              | "lt"
+              | "lte"
+              | "gt"
+              | "gte"
+              | "eq"
+              | "in"
+              | "not_in"
+              | "ne"
+              | "contains"
+              | "starts_with"
+              | "ends_with";
+            value:
+              | string
+              | number
+              | boolean
+              | Array<string>
+              | Array<number>
+              | null;
+          }>;
+        },
+        any
+      >;
+      findOne: FunctionReference<
+        "query",
+        "internal",
+        {
+          join?: any;
+          model: string;
+          select?: Array<string>;
+          where?: Array<{
+            connector?: "AND" | "OR";
+            field: string;
+            operator?:
+              | "lt"
+              | "lte"
+              | "gt"
+              | "gte"
+              | "eq"
+              | "in"
+              | "not_in"
+              | "ne"
+              | "contains"
+              | "starts_with"
+              | "ends_with";
+            value:
+              | string
+              | number
+              | boolean
+              | Array<string>
+              | Array<number>
+              | null;
+          }>;
+        },
+        any
+      >;
+      getLatestJwks: FunctionReference<"action", "internal", {}, any>;
+      rotateKeys: FunctionReference<"action", "internal", {}, any>;
+      updateMany: FunctionReference<
         "mutation",
         "internal",
-        any,
+        {
+          input: { model: string; update: any; where?: Array<any> };
+          paginationOpts: {
+            cursor: string | null;
+            endCursor?: string | null;
+            id?: number;
+            maximumBytesRead?: number;
+            maximumRowsRead?: number;
+            numItems: number;
+          };
+        },
+        any
+      >;
+      updateOne: FunctionReference<
+        "mutation",
+        "internal",
+        { input: { model: string; update: any; where?: Array<any> } },
         any
       >;
     };

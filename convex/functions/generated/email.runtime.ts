@@ -14,8 +14,7 @@ import { api, internal } from '../_generated/api.js';
 import type { ActionCtx, MutationCtx, QueryCtx } from './server';
 
 const procedureRegistry = {
-  "create": ["mutation", typedProcedureResolver(api["user"]["create"], () => (require("../user") as Record<string, unknown>)["create"])],
-  "list": ["query", typedProcedureResolver(api["user"]["list"], () => (require("../user") as Record<string, unknown>)["list"])],
+  "sendEmail": ["action", typedProcedureResolver(internal["email"]["sendEmail"], () => (require("../email") as Record<string, unknown>)["sendEmail"])],
 } as const;
 
 type ProcedureCallerContext = QueryCtx | MutationCtx | ActionCtx;
@@ -53,13 +52,13 @@ const createHandlerFromRegistry = createGenericHandlerFactory<
 >(procedureRegistry);
 
 
-export function createUserCaller<TCtx extends ProcedureCallerContext>(
+export function createEmailCaller<TCtx extends ProcedureCallerContext>(
   ctx: TCtx
 ): GeneratedProcedureCaller<TCtx> {
   return createCallerFromRegistry(ctx) as GeneratedProcedureCaller<TCtx>;
 }
 
-export function createUserHandler<TCtx extends ProcedureHandlerContext>(
+export function createEmailHandler<TCtx extends ProcedureHandlerContext>(
   ctx: TCtx
 ): GeneratedProcedureHandler<TCtx> {
   return createHandlerFromRegistry(ctx) as GeneratedProcedureHandler<TCtx>;
