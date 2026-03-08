@@ -63,6 +63,7 @@ export type DataModel = {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
       accountId: ["accountId", "_creationTime"];
+      accountId_providerId: ["accountId", "providerId", "_creationTime"];
       userId: ["userId", "_creationTime"];
     };
     searchIndexes: {};
@@ -299,6 +300,44 @@ export type DataModel = {
     searchIndexes: {};
     vectorIndexes: {};
   };
+  invitation: {
+    document: {
+      createdAt?: number;
+      email: string;
+      expiresAt: number;
+      inviterId: Id<"user">;
+      organizationId: Id<"organization">;
+      role: string;
+      status: string;
+      _id: Id<"invitation">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "email"
+      | "expiresAt"
+      | "_id"
+      | "inviterId"
+      | "organizationId"
+      | "role"
+      | "status";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      email: ["email", "_creationTime"];
+      email_organizationId_status: [
+        "email",
+        "organizationId",
+        "status",
+        "_creationTime",
+      ];
+      organizationId_status: ["organizationId", "status", "_creationTime"];
+      status: ["status", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
   jwks: {
     document: {
       createdAt?: number;
@@ -316,6 +355,32 @@ export type DataModel = {
     indexes: {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
+  member: {
+    document: {
+      createdAt?: number;
+      organizationId: Id<"organization">;
+      role: string;
+      userId: Id<"user">;
+      _id: Id<"member">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "_id"
+      | "organizationId"
+      | "role"
+      | "userId";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      organizationId_role: ["organizationId", "role", "_creationTime"];
+      organizationId_userId: ["organizationId", "userId", "_creationTime"];
+      userId: ["userId", "_creationTime"];
     };
     searchIndexes: {};
     vectorIndexes: {};
@@ -404,8 +469,36 @@ export type DataModel = {
     searchIndexes: {};
     vectorIndexes: {};
   };
+  organization: {
+    document: {
+      createdAt?: number;
+      logo?: null | string;
+      metadata?: null | any;
+      name: string;
+      slug: string;
+      _id: Id<"organization">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "_id"
+      | "logo"
+      | "metadata"
+      | "name"
+      | "slug";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      name: ["name", "_creationTime"];
+      slug: ["slug", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
   session: {
     document: {
+      activeOrganizationId?: null | string;
       createdAt?: number;
       expiresAt: number;
       ipAddress?: null | string;
@@ -417,6 +510,7 @@ export type DataModel = {
       _creationTime: number;
     };
     fieldPaths:
+      | "activeOrganizationId"
       | "createdAt"
       | "_creationTime"
       | "expiresAt"
@@ -429,6 +523,8 @@ export type DataModel = {
     indexes: {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
+      expiresAt: ["expiresAt", "_creationTime"];
+      expiresAt_userId: ["expiresAt", "userId", "_creationTime"];
       token: ["token", "_creationTime"];
       userId: ["userId", "_creationTime"];
     };
@@ -484,6 +580,7 @@ export type DataModel = {
     indexes: {
       by_id: ["_id"];
       by_creation_time: ["_creationTime"];
+      expiresAt: ["expiresAt", "_creationTime"];
       identifier: ["identifier", "_creationTime"];
     };
     searchIndexes: {};

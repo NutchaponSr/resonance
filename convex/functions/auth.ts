@@ -2,10 +2,11 @@ import bcrypt from "bcryptjs";
 import authConfig from "./auth.config";
 
 import { convex } from "better-convex/auth";
+import { organization } from "better-auth/plugins";
+import { requireActionCtx, requireRunMutationCtx } from "better-convex/server";
 import { APIError, createAuthMiddleware } from "better-auth/api";
-import { requireActionCtx } from "better-convex/server";
 
-import { internal } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 import { defineAuth } from "./generated/auth";
 
 import { buildEmailTemplate } from "./emailTemplates";
@@ -146,5 +147,39 @@ export default defineAuth((ctx) => {
         }
       }),
     },
+    databaseHooks: {
+      session: {
+        create: {
+          before: async (session) => {
+            try {
+              const runCtx = requireRunMutationCtx(ctx);
+              const org = await runCtx.runQuery(api.organization.findOne, {
+                userId: session.userId,
+              });
+              return {
+                data: {
+                  ...session,
+                  activeOrganizationId: org.id,
+                },
+              };
+            } catch {
+              return { data: session };
+            }
+          },
+        },
+      },
+    },
+    plugins: [
+      convex({ authConfig }),
+      organization({
+        organizationLimit: 5,
+        creatorRole: "owner",
+        organizationHooks: {
+          afterCreateOrganization: async ({ organization }) => {
+            // TODO: Create Database
+          }  
+        }
+      })
+    ]
   };
 });

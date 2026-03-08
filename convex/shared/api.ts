@@ -10,6 +10,11 @@ import type { InferInsertModel, InferSelectModel } from "better-convex/orm";
 import type { tables } from "../functions/schema";
 
 export const api = {
+  organization: {
+    create: createApiLeaf<"mutation", typeof import("../functions/organization").create>(convexApi["organization"]["create"], { auth: "required", rateLimit: "organization/create", type: "mutation" }),
+    findOne: createApiLeaf<"query", typeof import("../functions/organization").findOne>(convexApi["organization"]["findOne"], { type: "query" }),
+    getOne: createApiLeaf<"query", typeof import("../functions/organization").getOne>(convexApi["organization"]["getOne"], { auth: "required", type: "query" }),
+  },
   _http: {
   },
 } as const;
