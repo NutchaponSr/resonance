@@ -176,7 +176,9 @@ export default defineAuth((ctx) => {
         creatorRole: "owner",
         organizationHooks: {
           afterCreateOrganization: async ({ organization }) => {
-            // TODO: Create Database
+            await requireRunMutationCtx(ctx).runMutation(api.database.initial, {
+              organizationId: organization.id,
+            });
           }  
         }
       })

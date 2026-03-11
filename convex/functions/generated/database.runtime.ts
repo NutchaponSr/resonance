@@ -14,10 +14,8 @@ import { api, internal } from '../_generated/api.js';
 import type { ActionCtx, MutationCtx, QueryCtx } from './server';
 
 const procedureRegistry = {
-  "create": ["mutation", typedProcedureResolver(api["organization"]["create"], () => (require("../organization") as Record<string, unknown>)["create"])],
-  "findOne": ["query", typedProcedureResolver(api["organization"]["findOne"], () => (require("../organization") as Record<string, unknown>)["findOne"])],
-  "getMany": ["query", typedProcedureResolver(api["organization"]["getMany"], () => (require("../organization") as Record<string, unknown>)["getMany"])],
-  "getOne": ["query", typedProcedureResolver(api["organization"]["getOne"], () => (require("../organization") as Record<string, unknown>)["getOne"])],
+  "getMany": ["query", typedProcedureResolver(api["database"]["getMany"], () => (require("../database") as Record<string, unknown>)["getMany"])],
+  "initial": ["mutation", typedProcedureResolver(api["database"]["initial"], () => (require("../database") as Record<string, unknown>)["initial"])],
 } as const;
 
 type ProcedureCallerContext = QueryCtx | MutationCtx | ActionCtx;
@@ -55,13 +53,13 @@ const createHandlerFromRegistry = createGenericHandlerFactory<
 >(procedureRegistry);
 
 
-export function createOrganizationCaller<TCtx extends ProcedureCallerContext>(
+export function createDatabaseCaller<TCtx extends ProcedureCallerContext>(
   ctx: TCtx
 ): GeneratedProcedureCaller<TCtx> {
   return createCallerFromRegistry(ctx) as GeneratedProcedureCaller<TCtx>;
 }
 
-export function createOrganizationHandler<TCtx extends ProcedureHandlerContext>(
+export function createDatabaseHandler<TCtx extends ProcedureHandlerContext>(
   ctx: TCtx
 ): GeneratedProcedureHandler<TCtx> {
   return createHandlerFromRegistry(ctx) as GeneratedProcedureHandler<TCtx>;

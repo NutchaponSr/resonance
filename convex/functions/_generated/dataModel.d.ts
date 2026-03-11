@@ -300,6 +300,114 @@ export type DataModel = {
     searchIndexes: {};
     vectorIndexes: {};
   };
+  comment: {
+    document: {
+      authorId: Id<"user">;
+      body: Array<{
+        annotations: {
+          bold: null | boolean;
+          code: null | boolean;
+          color:
+            | null
+            | "default"
+            | "gray"
+            | "brown"
+            | "orange"
+            | "yellow"
+            | "green"
+            | "blue"
+            | "purple"
+            | "pink"
+            | "red"
+            | "gray_background"
+            | "brown_background"
+            | "orange_background"
+            | "yellow_background"
+            | "green_background"
+            | "blue_background"
+            | "purple_background"
+            | "pink_background"
+            | "red_background";
+          italic: null | boolean;
+          strikeThrough: null | boolean;
+          underline: null | boolean;
+        };
+        expression: null | string;
+        href: null | string;
+        mentionPageId: null | Id<"page">;
+        text: string;
+        type: "text" | "mention_user" | "mention_page" | "equation" | "code";
+        userId: null | Id<"user">;
+      }>;
+      createdAt?: number;
+      isResolved: boolean;
+      pageId: Id<"page">;
+      parentCommentId?: null | Id<"comment">;
+      resolvedAt?: null | number;
+      resolvedBy?: null | Id<"user">;
+      updatedAt: number;
+      _id: Id<"comment">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "authorId"
+      | "body"
+      | "createdAt"
+      | "_creationTime"
+      | "_id"
+      | "isResolved"
+      | "pageId"
+      | "parentCommentId"
+      | "resolvedAt"
+      | "resolvedBy"
+      | "updatedAt";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      authorId: ["authorId", "_creationTime"];
+      pageId: ["pageId", "_creationTime"];
+      pageId_isResolved: ["pageId", "isResolved", "_creationTime"];
+      parentCommentId: ["parentCommentId", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
+  database: {
+    document: {
+      coverImage?: null | string;
+      createdAt?: number;
+      createdBy: Id<"user">;
+      description?: null | string;
+      icon?: null | string;
+      organizationId: Id<"organization">;
+      pageId: Id<"page">;
+      title?: null | string;
+      updatedAt: number;
+      _id: Id<"database">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "coverImage"
+      | "createdAt"
+      | "createdBy"
+      | "_creationTime"
+      | "description"
+      | "icon"
+      | "_id"
+      | "organizationId"
+      | "pageId"
+      | "title"
+      | "updatedAt";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      createdBy: ["createdBy", "_creationTime"];
+      organizationId: ["organizationId", "_creationTime"];
+      pageId: ["pageId", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
   invitation: {
     document: {
       createdAt?: number;
@@ -492,6 +600,390 @@ export type DataModel = {
       by_creation_time: ["_creationTime"];
       name: ["name", "_creationTime"];
       slug: ["slug", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
+  page: {
+    document: {
+      blockContent: string;
+      body?: null | Array<{
+        bold: null | boolean;
+        code: null | boolean;
+        color: null | string;
+        href: null | string;
+        italic: null | boolean;
+        strikethrough: null | boolean;
+        text: string;
+        type: "text" | "mention_user" | "mention_page" | "equation";
+        underline: null | boolean;
+      }>;
+      bookmarkTitle?: null | string;
+      calloutIcon?: null | string;
+      caption?: null | string;
+      checked?: null | boolean;
+      code?: null | string;
+      color?:
+        | null
+        | "default"
+        | "gray"
+        | "brown"
+        | "orange"
+        | "yellow"
+        | "green"
+        | "blue"
+        | "purple"
+        | "pink"
+        | "red"
+        | "gray_background"
+        | "brown_background"
+        | "orange_background"
+        | "yellow_background"
+        | "green_background"
+        | "blue_background"
+        | "purple_background"
+        | "pink_background"
+        | "red_background";
+      columnCount?: null | number;
+      coverImage?: null | string;
+      createdAt?: number;
+      createdBy: Id<"user">;
+      databaseId?: null | Id<"database">;
+      description?: null | string;
+      hasColumnHeader?: null | boolean;
+      hasRowHeader?: null | boolean;
+      icon?: null | string;
+      isArchived: boolean;
+      isToggleable?: null | boolean;
+      isTrashed: boolean;
+      language?:
+        | null
+        | "abap"
+        | "arduino"
+        | "bash"
+        | "basic"
+        | "c"
+        | "clojure"
+        | "coffeescript"
+        | "cpp"
+        | "csharp"
+        | "css"
+        | "dart"
+        | "diff"
+        | "docker"
+        | "elixir"
+        | "elm"
+        | "erlang"
+        | "flow"
+        | "fortran"
+        | "fsharp"
+        | "gherkin"
+        | "glsl"
+        | "go"
+        | "graphql"
+        | "groovy"
+        | "haskell"
+        | "html"
+        | "java"
+        | "javascript"
+        | "json"
+        | "julia"
+        | "kotlin"
+        | "latex"
+        | "less"
+        | "lisp"
+        | "livescript"
+        | "lua"
+        | "makefile"
+        | "markdown"
+        | "markup"
+        | "matlab"
+        | "mermaid"
+        | "nix"
+        | "objective_c"
+        | "ocaml"
+        | "pascal"
+        | "perl"
+        | "php"
+        | "plain_text"
+        | "powershell"
+        | "prolog"
+        | "protobuf"
+        | "python"
+        | "r"
+        | "reason"
+        | "ruby"
+        | "rust"
+        | "sass"
+        | "scala"
+        | "scheme"
+        | "scss"
+        | "shell"
+        | "sql"
+        | "swift"
+        | "typescript"
+        | "vb_net"
+        | "verilog"
+        | "vhdl"
+        | "visual_basic"
+        | "webassembly"
+        | "xml"
+        | "yaml"
+        | "java_or_kotlin";
+      lastEditedBy: Id<"user">;
+      mimeType?: null | string;
+      name?: null | string;
+      organizationId: Id<"organization">;
+      parentId?: null | Id<"page">;
+      previewImage?: null | string;
+      size?: null | number;
+      sortOrder: string;
+      syncedFromPageId?: null | Id<"page">;
+      title?: null | string;
+      trashedAt?: null | number;
+      type:
+        | "page"
+        | "database"
+        | "paragraph"
+        | "heading_1"
+        | "heading_2"
+        | "heading_3"
+        | "bulleted_list_item"
+        | "numbered_list_item"
+        | "toggle"
+        | "to_do"
+        | "quote"
+        | "callout"
+        | "divider"
+        | "code"
+        | "image"
+        | "video"
+        | "file"
+        | "bookmark"
+        | "embed"
+        | "table"
+        | "table_row"
+        | "column_list"
+        | "column"
+        | "template"
+        | "synced_block";
+      updatedAt: number;
+      url?: null | string;
+      width?: null | number;
+      _id: Id<"page">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "blockContent"
+      | "body"
+      | "bookmarkTitle"
+      | "calloutIcon"
+      | "caption"
+      | "checked"
+      | "code"
+      | "color"
+      | "columnCount"
+      | "coverImage"
+      | "createdAt"
+      | "createdBy"
+      | "_creationTime"
+      | "databaseId"
+      | "description"
+      | "hasColumnHeader"
+      | "hasRowHeader"
+      | "icon"
+      | "_id"
+      | "isArchived"
+      | "isToggleable"
+      | "isTrashed"
+      | "language"
+      | "lastEditedBy"
+      | "mimeType"
+      | "name"
+      | "organizationId"
+      | "parentId"
+      | "previewImage"
+      | "size"
+      | "sortOrder"
+      | "syncedFromPageId"
+      | "title"
+      | "trashedAt"
+      | "type"
+      | "updatedAt"
+      | "url"
+      | "width";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      createdBy: ["createdBy", "_creationTime"];
+      databaseId: ["databaseId", "_creationTime"];
+      isTrashed: ["isTrashed", "_creationTime"];
+      organizationId: ["organizationId", "_creationTime"];
+      organizationId_type: ["organizationId", "type", "_creationTime"];
+      parentId: ["parentId", "_creationTime"];
+      parentId_sortOrder: ["parentId", "sortOrder", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
+  property: {
+    document: {
+      createdAt?: number;
+      databaseId: Id<"database">;
+      expression?: null | string;
+      groups?: null | Array<{ color: null | string; id: string; name: string }>;
+      isHidden: boolean;
+      isPrimary: boolean;
+      name: string;
+      numberFormat?:
+        | null
+        | "number"
+        | "dollar"
+        | "euro"
+        | "pound"
+        | "baht"
+        | "yen"
+        | "percent"
+        | "rupee"
+        | "won"
+        | "ruble";
+      options?: null | Array<{
+        color: null | string;
+        id: string;
+        name: string;
+      }>;
+      propertyConfig: string;
+      relationDatabaseId?: null | Id<"database">;
+      relationPropertyId?: null | string;
+      rollupFunction?:
+        | null
+        | "count"
+        | "conut_values"
+        | "sum"
+        | "average"
+        | "min"
+        | "max"
+        | "median"
+        | "percent_empty"
+        | "percent_not_empty"
+        | "show_original"
+        | "show_unique";
+      rollupPropertyId?: null | string;
+      sortOrder: string;
+      syncedPropertyId?: null | string;
+      type?:
+        | null
+        | "title"
+        | "text"
+        | "number"
+        | "select"
+        | "multi_select"
+        | "status"
+        | "date"
+        | "person"
+        | "files"
+        | "checkbox"
+        | "url"
+        | "email"
+        | "phone"
+        | "formula"
+        | "relation"
+        | "rollup"
+        | "created_time"
+        | "created_by"
+        | "last_edited_time"
+        | "last_edited_by";
+      updatedAt: number;
+      _id: Id<"property">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "createdAt"
+      | "_creationTime"
+      | "databaseId"
+      | "expression"
+      | "groups"
+      | "_id"
+      | "isHidden"
+      | "isPrimary"
+      | "name"
+      | "numberFormat"
+      | "options"
+      | "propertyConfig"
+      | "relationDatabaseId"
+      | "relationPropertyId"
+      | "rollupFunction"
+      | "rollupPropertyId"
+      | "sortOrder"
+      | "syncedPropertyId"
+      | "type"
+      | "updatedAt";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      databaseId: ["databaseId", "_creationTime"];
+      databaseId_type: ["databaseId", "type", "_creationTime"];
+    };
+    searchIndexes: {};
+    vectorIndexes: {};
+  };
+  propertyValue: {
+    document: {
+      checkbox?: null | boolean;
+      databaseId: Id<"database">;
+      detail: string;
+      email?: null | string;
+      end?: null | number;
+      files?: null | Array<{
+        mimeType: null | string;
+        name: string;
+        url: string;
+      }>;
+      number?: null | number;
+      optionId?: null | string;
+      optionIds?: null | Array<string>;
+      pageId: Id<"page">;
+      pageIds?: null | Array<Id<"page">>;
+      phone?: null | string;
+      propertyId: Id<"property">;
+      result?: null | string;
+      start?: null | number;
+      text?: null | string;
+      updatedAt: number;
+      url?: null | string;
+      userIds?: null | Array<Id<"user">>;
+      _id: Id<"propertyValue">;
+      _creationTime: number;
+    };
+    fieldPaths:
+      | "checkbox"
+      | "_creationTime"
+      | "databaseId"
+      | "detail"
+      | "email"
+      | "end"
+      | "files"
+      | "_id"
+      | "number"
+      | "optionId"
+      | "optionIds"
+      | "pageId"
+      | "pageIds"
+      | "phone"
+      | "propertyId"
+      | "result"
+      | "start"
+      | "text"
+      | "updatedAt"
+      | "url"
+      | "userIds";
+    indexes: {
+      by_id: ["_id"];
+      by_creation_time: ["_creationTime"];
+      databaseId: ["databaseId", "_creationTime"];
+      pageId: ["pageId", "_creationTime"];
+      pageId_propertyId: ["pageId", "propertyId", "_creationTime"];
+      propertyId: ["propertyId", "_creationTime"];
     };
     searchIndexes: {};
     vectorIndexes: {};
