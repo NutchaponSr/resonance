@@ -1,11 +1,40 @@
+import { Suspense } from "react";
+
+import { crpc, HydrateClient, prefetch } from "@/lib/rsc";
+
+import { Sidebar } from "@/components/sidebar";
+
+import { SidebarProvider } from "@/components/contexts/sidebar-context";
+
 import { AuthGuard } from "@/modules/auth/ui/components/auth-guard";
 import { OrganizationGuard } from "@/modules/organizations/ui/components/organization-guard";
 
-const Layout = ({ children }: LayoutProps<"/">) => {
+import { Main } from "./main";
+import { Header } from "./header";
+
+const Layout = async ({ children }: LayoutProps<"/">) => {
+  prefetch(crpc.database.getMany.queryOptions());
+  prefetch(crpc.organization.getOne.queryOptions());
+  prefetch(crpc.organization.getMany.queryOptions());
+
   return (
     <AuthGuard>
       <OrganizationGuard>
-        {children}
+        <SidebarProvider>
+          <div className="w-screen h-full relative flex bg-background cursor-text grow shrink basis-0 overflow-x-hidden">
+            <HydrateClient>
+              <Suspense fallback={<p>Loading</p>}>
+                <Sidebar />
+              </Suspense>
+            </HydrateClient>
+            <div className="order-3 flex flex-col w-full overflow-hidden isolation-auto relative">
+              <Header />
+              {/* <Main>
+                {children}
+              </Main> */}
+            </div>
+          </div>
+        </SidebarProvider>
       </OrganizationGuard>
     </AuthGuard>
   );

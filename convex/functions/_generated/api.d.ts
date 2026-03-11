@@ -20,6 +20,30 @@ import type { GenericId as Id } from "convex/values";
  * ```
  */
 export declare const api: {
+  database: {
+    getMany: FunctionReference<
+      "query",
+      "public",
+      {},
+      Array<{
+        coverImage?: string | null;
+        createdAt: any;
+        createdBy: string;
+        description?: string | null;
+        icon?: string | null;
+        id: string;
+        pageId: string;
+        title?: string | null;
+        updatedAt: number;
+      }>
+    >;
+    initial: FunctionReference<
+      "mutation",
+      "public",
+      { organizationId: string },
+      any
+    >;
+  };
   organization: {
     create: FunctionReference<
       "mutation",
@@ -33,7 +57,18 @@ export declare const api: {
       { userId: string },
       { id: string }
     >;
-    getOne: FunctionReference<"query", "public", {}, { id?: string }>;
+    getMany: FunctionReference<
+      "query",
+      "public",
+      {},
+      Array<{ id: string; logo?: string | null; name: string }>
+    >;
+    getOne: FunctionReference<
+      "query",
+      "public",
+      {},
+      { id?: string; logo?: string | null; name?: string }
+    >;
   };
 };
 

@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { AuthLoading } from "convex/react";
-import { Authenticated, Unauthenticated } from "better-convex/react";
+import { useRouter } from "next/navigation";
+import { Authenticated, useAuth } from "better-convex/react";
 
 import { Loader } from "@/components/loader";
 
@@ -10,6 +12,16 @@ interface Props {
 }
 
 export const AuthGuard = ({ children }: Props) => {
+  const router = useRouter();
+  
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/");
+    }
+  }, [isAuthenticated]);
+
   return (
     <>
       <AuthLoading>
@@ -18,9 +30,6 @@ export const AuthGuard = ({ children }: Props) => {
       <Authenticated>
         {children}
       </Authenticated>
-      <Unauthenticated>
-        <Loader />
-      </Unauthenticated>
     </>
   );
 }
