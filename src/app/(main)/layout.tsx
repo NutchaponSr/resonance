@@ -21,18 +21,16 @@ const Layout = async ({ children }: LayoutProps<"/">) => {
     <AuthGuard>
       <OrganizationGuard>
         <SidebarProvider>
-          <div className="w-screen h-full relative flex bg-background cursor-text grow shrink basis-0 overflow-x-hidden">
-            <HydrateClient>
-              <Suspense fallback={<p>Loading</p>}>
-                <Sidebar />
-              </Suspense>
-            </HydrateClient>
-            <div className="order-3 flex flex-col w-full overflow-hidden isolation-auto relative">
-              <Header />
-              {/* <Main>
-                {children}
-              </Main> */}
-            </div>
+          <HydrateClient>
+            <Suspense fallback={<p>Loading</p>}>
+              <Sidebar />
+            </Suspense>
+          </HydrateClient>
+          <div className="order-3 flex flex-col w-full overflow-hidden isolation-auto relative">
+            <Header />
+            <Main>
+              {children}
+            </Main>
           </div>
         </SidebarProvider>
       </OrganizationGuard>

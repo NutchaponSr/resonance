@@ -16,6 +16,9 @@ import { cn } from "@/lib/utils";
 import { useCRPC } from "@/lib/crpc";
 
 import { menus } from "@/constants/sidebar";
+import { DialogType } from "@/types/dialog";
+
+import { useDialog } from "@/stores/use-dialog";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -26,6 +29,7 @@ import { UserButton } from "@/modules/auth/ui/components/user-button";
 
 export const Sidebar = () => {
   const crpc = useCRPC();
+  const { onOpen } = useDialog();
 
   const {
     width,
@@ -86,7 +90,7 @@ export const Sidebar = () => {
               <UserButton />
               <div className="grow-0 shrink-0 pb-0 flex flex-col gap-px cursor-pointer mx-2">
                 {menus.slice(0, 5).map((menu, index) => (
-                  <SidebarMenu key={index} {...menu} />
+                  <SidebarMenu key={index} {...menu} onClick={() => {}} />
                 ))}
               </div>
               <div className={cn(
@@ -112,7 +116,15 @@ export const Sidebar = () => {
                       </div>
                       <div className="flex flex-col gap-px">
                         {menus.slice(5).map((menu, index) => (
-                          <SidebarMenu key={index} {...menu} />
+                          <SidebarMenu
+                            key={index}
+                            {...menu}
+                            onClick={
+                              menu.label === "Settings"
+                                ? () => onOpen(DialogType.PREFERENCES)
+                                : () => {}
+                            }
+                          />
                         ))}
                       </div>
                     </div>
@@ -163,7 +175,8 @@ export const Sidebar = () => {
 const SidebarMenu = ({
   label,
   icon: Icon,
-  tooltip
+  tooltip,
+  onClick
 }: {
   label: string;
   icon: IconType;
@@ -171,12 +184,14 @@ const SidebarMenu = ({
     content: string;
     description?: string;
   };
+  onClick: () => void;
 }) => {
   return (
     <>
       <Hint content={tooltip.content} side="right" align="center" sideOffset={6} description={tooltip.description}>
         <div
           role="button"
+          onClick={onClick}
           className="select-none transition cursor-pointer rounded flex mx-0 font-medium hover:bg-black/3"
         >
           <div className="flex items-center w-full text-sm min-h-7 h-7.5 py-1 px-2">
