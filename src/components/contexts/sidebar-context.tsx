@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { 
   createContext, 
   useCallback, 
@@ -28,6 +29,7 @@ export const SidebarProvider = ({ children }: { children: React.ReactNode }) => 
   const [width, setWidth] = useState(MIN_WIDTH);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   const startX = useRef(0);
   const startWidth = useRef(0);
@@ -36,11 +38,13 @@ export const SidebarProvider = ({ children }: { children: React.ReactNode }) => 
   const collapse = useCallback(() => {
     widthBeforeCollapse.current = width;
     setIsCollapsed(true);
+    setIsPending(false);
   }, [width]);
 
   const expand = useCallback(() => {
     setWidth(widthBeforeCollapse.current);
     setIsCollapsed(false);
+    setIsPending(true);
   }, []);
 
   const toggle = useCallback(() => {
@@ -92,7 +96,12 @@ export const SidebarProvider = ({ children }: { children: React.ReactNode }) => 
         startDragging 
       }}
     >
-      {children}
+      <div className={cn(
+        "w-screen h-full relative flex bg-background cursor-text grow shrink basis-0",
+        isPending && "overflow-x-hidden overflow-y-hidden"
+      )}>
+        {children}
+      </div>
     </SidebarContext.Provider>
   );
 }

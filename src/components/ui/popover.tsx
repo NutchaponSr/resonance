@@ -78,9 +78,9 @@ function PopoverDescription({
   )
 }
 
-function PopoverSeparator() {
+function PopoverSeparator({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div className="flex items-center justify-center pointer-events-none w-full h-[1.25px]">
+    <div data-slot="popover-separator" className={cn("flex items-center justify-center pointer-events-none w-full h-[1.25px]", className)} {...props}>
       <div role="separator" className="w-full h-[1.25px] visible bg-border" />
     </div>
   );
