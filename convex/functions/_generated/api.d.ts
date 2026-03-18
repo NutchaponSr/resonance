@@ -19,7 +19,97 @@ import type { GenericId as Id } from "convex/values";
  * const myFunctionReference = api.myModule.myFunction;
  * ```
  */
-export declare const api: {};
+export declare const api: {
+  database: {
+    getMany: FunctionReference<
+      "query",
+      "public",
+      {},
+      Array<{
+        coverImage?: string | null;
+        createdAt: any;
+        createdBy: string;
+        description?: string | null;
+        icon?: string | null;
+        id: string;
+        pageId: string;
+        title?: string | null;
+        updatedAt: number;
+      }>
+    >;
+    initial: FunctionReference<
+      "mutation",
+      "public",
+      { organizationId: string },
+      any
+    >;
+  };
+  organization: {
+    accept: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: string },
+      any
+    >;
+    addMember: FunctionReference<
+      "mutation",
+      "public",
+      { members: Array<{ email: string; role: "member" | "owner" | "admin" }> },
+      any
+    >;
+    create: FunctionReference<
+      "mutation",
+      "public",
+      { name: string; slug: string },
+      any
+    >;
+    findOne: FunctionReference<
+      "query",
+      "public",
+      { userId: string },
+      { id: string }
+    >;
+    generateLink: FunctionReference<"mutation", "public", {}, any>;
+    getMany: FunctionReference<
+      "query",
+      "public",
+      {},
+      Array<{ id: string; logo?: string | null; name: string }>
+    >;
+    getOne: FunctionReference<
+      "query",
+      "public",
+      {},
+      {
+        code: string;
+        createdAt: any;
+        id: string;
+        isMember: boolean;
+        link: string;
+        logo: string | null;
+        name: string;
+      } | null
+    >;
+    invite: FunctionReference<
+      "mutation",
+      "public",
+      { email: string; role: "member" | "owner" | "admin" },
+      any
+    >;
+    join: FunctionReference<
+      "mutation",
+      "public",
+      { joinCode: string; link: string },
+      any
+    >;
+    reject: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: string },
+      any
+    >;
+  };
+};
 
 /**
  * A utility for referencing Convex functions in your app's internal API.
@@ -166,6 +256,39 @@ export declare const internal: {
         "mutation",
         "internal",
         { input: { model: string; update: any; where?: Array<any> } },
+        any
+      >;
+    };
+    server: {
+      aggregateBackfill: FunctionReference<"mutation", "internal", any, any>;
+      aggregateBackfillChunk: FunctionReference<
+        "mutation",
+        "internal",
+        any,
+        any
+      >;
+      aggregateBackfillStatus: FunctionReference<
+        "mutation",
+        "internal",
+        any,
+        any
+      >;
+      migrationCancel: FunctionReference<"mutation", "internal", any, any>;
+      migrationRun: FunctionReference<"mutation", "internal", any, any>;
+      migrationRunChunk: FunctionReference<"mutation", "internal", any, any>;
+      migrationStatus: FunctionReference<"mutation", "internal", any, any>;
+      reset: FunctionReference<"action", "internal", any, any>;
+      resetChunk: FunctionReference<
+        "mutation",
+        "internal",
+        { cursor: string | null; tableName: string },
+        any
+      >;
+      scheduledDelete: FunctionReference<"mutation", "internal", any, any>;
+      scheduledMutationBatch: FunctionReference<
+        "mutation",
+        "internal",
+        any,
         any
       >;
     };

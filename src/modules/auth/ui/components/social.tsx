@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { useSearchParams } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
 import { useSignInSocialMutationOptions } from "@/lib/auth-client";
@@ -11,10 +12,16 @@ interface Props {
 }
 
 export const Social = ({ disabled }: Props) => {
+  const searchParams = useSearchParams();
+  const callbackURL = searchParams.get("callbackUrl") || window.location.origin;
+
   const signInSocial = useMutation(useSignInSocialMutationOptions());
 
   const onProvider = (provider: "google" | "github") => {
-    signInSocial.mutate({ provider, callbackURL: window.location.origin });
+    signInSocial.mutate({ 
+      provider, 
+      callbackURL,
+    });
   };
   
   return (

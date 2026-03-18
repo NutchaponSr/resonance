@@ -7,18 +7,27 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-sidebar: var(--sidebar);
   --color-blue-500: var(--blue-500);
   --color-blue-700: var(--blue-700);
+  --color-blue-foreground: var(--blue-foreground);
+  --color-blue-accent: var(--blue-accent);
   --color-muted: var(--muted);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-accent: var(--primary-accent);
   --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-tertiary: var(--tertiary);
+  --color-tertiary-foreground: var(--tertiary-foreground);
   --color-border: var(--border);
+  --color-border-secondary: var(--border-secondary);
   --color-destructive: var(--destructive);
   --color-icon-primary: var(--icon-primary);
   --color-icon-secondary: var(--icon-secondary);
   --color-icon-tertiary: var(--icon-tertiary);
+  --color-popover: var(--popover);
+  --color-accent: var(--accent);
   --font-sans: var(--font-sans);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -26,21 +35,29 @@
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-4xl: calc(var(--radius) * 2.6);  
   --default-border-width: 1.25px;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #fffefc;
+  --foreground: ##fffefc;
+  --sidebar: #f9f8f7;
   --muted: #2a1c0012;
   --primary: #2c2c2b;
   --primary-foreground: #8e8b86;
+  --primary-accent: #5f5e59;
   --secondary: #7d7a75;
+  --secondary-foreground: #91918e;
   --tertiary: #a19e99;
   --border: #e6e5e3;
+  --border-secondary: #f0efed;
   --destructive: #eb5757;
+  --popover: #ffffff;
+  --accent: #3735300f;
 
+  --blue-foreground: #007cd718;
+  --blue-accent: #007cd724;
   --blue-500: #2383e2;
   --blue-700: #0077d4;
 
