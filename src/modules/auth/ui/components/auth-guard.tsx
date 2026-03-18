@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import { AuthLoading } from "convex/react";
-import { useRouter } from "next/navigation";
-import { Authenticated, useAuth } from "better-convex/react";
+import { usePathname } from "next/navigation";
+import { Authenticated } from "better-convex/react";
 
 import { Loader } from "@/components/loader";
 
@@ -11,16 +10,18 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const AuthGuard = ({ children }: Props) => {
-  const router = useRouter();
-  
-  const { isAuthenticated } = useAuth();
+const MATCH_PREFIX = ["/invite", "/link"];
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.replace("/");
-    }
-  }, [isAuthenticated]);
+const matchPrefix = (pathname: string) => {
+  return MATCH_PREFIX.some((prefix) => pathname.startsWith(prefix));
+}
+
+export const AuthGuard = ({ children }: Props) => {
+  const pathname = usePathname();
+
+  if (matchPrefix(pathname)) {
+    return children;
+  }
 
   return (
     <>

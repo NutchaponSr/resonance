@@ -24,6 +24,7 @@ const c = initCRPC
   .create();
 
 export const publicQuery = c.query;
+export const publicAction = c.action;
 export const publicMutation = c.mutation;
 
 const devMiddleware = c.middleware<object>(({ meta, next, ctx }) => {

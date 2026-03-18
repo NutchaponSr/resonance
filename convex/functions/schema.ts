@@ -1,4 +1,19 @@
-import { arrayOf, boolean, convexTable, defineRelations, defineSchema, discriminator, id, index, integer, json, objectOf, text, textEnum, timestamp } from "better-convex/orm";
+import {
+  arrayOf,
+  boolean,
+  convexTable,
+  defineRelations,
+  defineSchema,
+  discriminator,
+  id,
+  index,
+  integer,
+  json,
+  objectOf,
+  text,
+  textEnum,
+  timestamp
+} from "better-convex/orm";
 
 export const user = convexTable("user", {
   name: text().notNull(),
@@ -68,6 +83,12 @@ export const organization = convexTable("organization", {
   slug: text().notNull(),
   logo: text(),
   createdAt: timestamp().notNull().defaultNow(),
+  link: text().notNull().$defaultFn(() => crypto.randomUUID()),
+  code: text().notNull().$defaultFn(() => Array.from(
+    { length: 6 },
+    () =>
+      "0123456789abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 36)]
+  ).join("")),
   metadata: json<Record<string, unknown>>(),
 }, (t) => [
   index("slug").on(t.slug),
@@ -357,13 +378,13 @@ export const page = convexTable(
       as: "block",
       variants: {
         // ── no content ──────────────────────────
-        page:         {},
-        database:     {},
-        divider:      {},
-        column_list:  {},
-        column:       {},
-        table_row:    {},
-        template:     {},
+        page: {},
+        database: {},
+        divider: {},
+        column_list: {},
+        column: {},
+        table_row: {},
+        template: {},
 
         // ── rich text blocks ────────────────────
         paragraph: {
@@ -553,17 +574,17 @@ export const comment = convexTable("comment", {
 //   index("userId_pageId").on(t.userId, t.pageId),
 // ]);
 
-export const tables = { 
-  user, 
-  session, 
-  account, 
-  verification, 
-  jwks, 
-  organization, 
-  member, 
-  invitation, 
-  database, 
-  property, 
+export const tables = {
+  user,
+  session,
+  account,
+  verification,
+  jwks,
+  organization,
+  member,
+  invitation,
+  database,
+  property,
   propertyValue,
   comment,
   page,

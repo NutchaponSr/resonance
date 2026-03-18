@@ -5,6 +5,8 @@ import type { SessionUser } from "../shared/auth-shared";
 import type { Id } from "../functions/_generated/dataModel";
 import type { QueryCtx } from "../functions/generated/server";
 
+import { AuthCtx } from "./crpc";
+
 export const getSessionData = async (ctx: QueryCtx) => {
   const session = await getSession(ctx);
 
@@ -39,12 +41,12 @@ export const getSessionData = async (ctx: QueryCtx) => {
       }),
     ]);
 
-    if (activeOrg) {
+    if (activeOrg && currentMember) {
       const { id, ...rest } = activeOrg;
       activeOrganization = {
         ...rest,
         id,
-        role: currentMember?.role || "member",
+        role: currentMember.role,
       }
     }
   }

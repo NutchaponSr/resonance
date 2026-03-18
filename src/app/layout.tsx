@@ -32,12 +32,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${font.className} antialiased`}>
-        <Providers>
+    <Providers>
+      <html lang="en">
+        <body className={`${font.className} antialiased`}>
           {children}
-        </Providers>
-      </body>
-    </html>
+        </body>
+      </html>
+    </Providers>
   );
 }

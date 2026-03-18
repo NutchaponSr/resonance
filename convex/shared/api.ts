@@ -15,10 +15,16 @@ export const api = {
     initial: createApiLeaf<"mutation", typeof import("../functions/database").initial>(convexApi["database"]["initial"], { auth: "required", type: "mutation" }),
   },
   organization: {
+    accept: createApiLeaf<"mutation", typeof import("../functions/organization").accept>(convexApi["organization"]["accept"], { auth: "required", type: "mutation" }),
+    addMember: createApiLeaf<"mutation", typeof import("../functions/organization").addMember>(convexApi["organization"]["addMember"], { auth: "required", rateLimit: "organization/addMember", type: "mutation" }),
     create: createApiLeaf<"mutation", typeof import("../functions/organization").create>(convexApi["organization"]["create"], { auth: "required", rateLimit: "organization/create", type: "mutation" }),
     findOne: createApiLeaf<"query", typeof import("../functions/organization").findOne>(convexApi["organization"]["findOne"], { type: "query" }),
+    generateLink: createApiLeaf<"mutation", typeof import("../functions/organization").generateLink>(convexApi["organization"]["generateLink"], { auth: "required", type: "mutation" }),
     getMany: createApiLeaf<"query", typeof import("../functions/organization").getMany>(convexApi["organization"]["getMany"], { auth: "required", type: "query" }),
     getOne: createApiLeaf<"query", typeof import("../functions/organization").getOne>(convexApi["organization"]["getOne"], { auth: "required", type: "query" }),
+    invite: createApiLeaf<"mutation", typeof import("../functions/organization").invite>(convexApi["organization"]["invite"], { auth: "required", type: "mutation" }),
+    join: createApiLeaf<"mutation", typeof import("../functions/organization").join>(convexApi["organization"]["join"], { auth: "required", type: "mutation" }),
+    reject: createApiLeaf<"mutation", typeof import("../functions/organization").reject>(convexApi["organization"]["reject"], { auth: "required", type: "mutation" }),
   },
   _http: {
   },

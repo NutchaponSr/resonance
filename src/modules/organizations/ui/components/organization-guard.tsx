@@ -23,7 +23,7 @@ export const OrganizationGuard = ({ children }: Props) => {
     return <Loader label="Getting setup..." />;
   }
 
-  if (!organization?.id) {
+  if (!organization) {
     return <OrganizationView />
   }
 

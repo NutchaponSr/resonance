@@ -579,7 +579,9 @@ export type DataModel = {
   };
   organization: {
     document: {
+      code: string;
       createdAt?: number;
+      link: string;
       logo?: null | string;
       metadata?: null | any;
       name: string;
@@ -588,9 +590,11 @@ export type DataModel = {
       _creationTime: number;
     };
     fieldPaths:
+      | "code"
       | "createdAt"
       | "_creationTime"
       | "_id"
+      | "link"
       | "logo"
       | "metadata"
       | "name"

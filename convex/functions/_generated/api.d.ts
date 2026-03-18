@@ -45,6 +45,18 @@ export declare const api: {
     >;
   };
   organization: {
+    accept: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: string },
+      any
+    >;
+    addMember: FunctionReference<
+      "mutation",
+      "public",
+      { members: Array<{ email: string; role: "member" | "owner" | "admin" }> },
+      any
+    >;
     create: FunctionReference<
       "mutation",
       "public",
@@ -57,6 +69,7 @@ export declare const api: {
       { userId: string },
       { id: string }
     >;
+    generateLink: FunctionReference<"mutation", "public", {}, any>;
     getMany: FunctionReference<
       "query",
       "public",
@@ -67,7 +80,33 @@ export declare const api: {
       "query",
       "public",
       {},
-      { id?: string; logo?: string | null; name?: string }
+      {
+        code: string;
+        createdAt: any;
+        id: string;
+        isMember: boolean;
+        link: string;
+        logo: string | null;
+        name: string;
+      } | null
+    >;
+    invite: FunctionReference<
+      "mutation",
+      "public",
+      { email: string; role: "member" | "owner" | "admin" },
+      any
+    >;
+    join: FunctionReference<
+      "mutation",
+      "public",
+      { joinCode: string; link: string },
+      any
+    >;
+    reject: FunctionReference<
+      "mutation",
+      "public",
+      { invitationId: string },
+      any
     >;
   };
 };

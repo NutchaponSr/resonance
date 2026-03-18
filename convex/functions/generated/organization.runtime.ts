@@ -14,10 +14,16 @@ import { api, internal } from '../_generated/api.js';
 import type { ActionCtx, MutationCtx, QueryCtx } from './server';
 
 const procedureRegistry = {
+  "accept": ["mutation", typedProcedureResolver(api["organization"]["accept"], () => (require("../organization") as Record<string, unknown>)["accept"])],
+  "addMember": ["mutation", typedProcedureResolver(api["organization"]["addMember"], () => (require("../organization") as Record<string, unknown>)["addMember"])],
   "create": ["mutation", typedProcedureResolver(api["organization"]["create"], () => (require("../organization") as Record<string, unknown>)["create"])],
   "findOne": ["query", typedProcedureResolver(api["organization"]["findOne"], () => (require("../organization") as Record<string, unknown>)["findOne"])],
+  "generateLink": ["mutation", typedProcedureResolver(api["organization"]["generateLink"], () => (require("../organization") as Record<string, unknown>)["generateLink"])],
   "getMany": ["query", typedProcedureResolver(api["organization"]["getMany"], () => (require("../organization") as Record<string, unknown>)["getMany"])],
   "getOne": ["query", typedProcedureResolver(api["organization"]["getOne"], () => (require("../organization") as Record<string, unknown>)["getOne"])],
+  "invite": ["mutation", typedProcedureResolver(api["organization"]["invite"], () => (require("../organization") as Record<string, unknown>)["invite"])],
+  "join": ["mutation", typedProcedureResolver(api["organization"]["join"], () => (require("../organization") as Record<string, unknown>)["join"])],
+  "reject": ["mutation", typedProcedureResolver(api["organization"]["reject"], () => (require("../organization") as Record<string, unknown>)["reject"])],
 } as const;
 
 type ProcedureCallerContext = QueryCtx | MutationCtx | ActionCtx;

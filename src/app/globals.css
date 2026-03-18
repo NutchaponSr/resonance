@@ -10,6 +10,8 @@
   --color-sidebar: var(--sidebar);
   --color-blue-500: var(--blue-500);
   --color-blue-700: var(--blue-700);
+  --color-blue-foreground: var(--blue-foreground);
+  --color-blue-accent: var(--blue-accent);
   --color-muted: var(--muted);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -54,6 +56,8 @@
   --popover: #ffffff;
   --accent: #3735300f;
 
+  --blue-foreground: #007cd718;
+  --blue-accent: #007cd724;
   --blue-500: #2383e2;
   --blue-700: #0077d4;
 

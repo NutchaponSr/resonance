@@ -6,8 +6,9 @@ import { organization } from "better-auth/plugins";
 import { requireActionCtx, requireRunMutationCtx } from "better-convex/server";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 
-import { api, internal } from "./_generated/api";
 import { defineAuth } from "./generated/auth";
+import { ActionCtx } from "./_generated/server";
+import { api, internal } from "./_generated/api";
 
 import { buildEmailTemplate } from "./emailTemplates";
 
@@ -55,8 +56,8 @@ export default defineAuth((ctx) => {
           {
             to: user.email,
             ...buildEmailTemplate(
-              url, 
-              "Reset Your Password", 
+              url,
+              "Reset Your Password",
               "Please click the button below to reset your password."
             ),
           },
@@ -80,7 +81,7 @@ export default defineAuth((ctx) => {
             to: user.email,
             ...buildEmailTemplate(
               link.toString(),
-              "Verify Your Email Address", 
+              "Verify Your Email Address",
               "Please verify your email address by using the code below or clicking the verification button."
             ),
           },
@@ -109,7 +110,7 @@ export default defineAuth((ctx) => {
     },
     hooks: {
       before: createAuthMiddleware(async (ctx) => {
-        if (ctx.path ===  "/sign-up/email") {
+        if (ctx.path === "/sign-up/email") {
           const email = String(ctx.body.email);
           const domain = email.split("@")[1];
 
@@ -179,7 +180,39 @@ export default defineAuth((ctx) => {
             await requireRunMutationCtx(ctx).runMutation(api.database.initial, {
               organizationId: organization.id,
             });
-          }  
+          },
+          afterCreateInvitation: async (data) => {
+            const url = new URL(process.env.SITE_URL!);
+            url.pathname = `/invite/${data.invitation.id}`;
+            url.searchParams.set("chanel", "email");
+
+            await (ctx as ActionCtx).scheduler.runAfter(
+              0,
+              internal.email.sendEmail,
+              {
+                to: data.invitation.email,
+                ...buildEmailTemplate(
+                  url.toString(),
+                  "Join Our Organization",
+                  "Please click the button below to join our organization."
+                ),
+              },
+            );
+          },
+        },
+        schema: {
+          organization: {
+            additionalFields: {
+              link: {
+                required: false,
+                type: "string",
+              },
+              code: {
+                required: false,
+                type: "string",
+              }
+            }
+          }
         }
       })
     ]

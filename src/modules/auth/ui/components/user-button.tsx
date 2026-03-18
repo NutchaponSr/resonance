@@ -1,4 +1,5 @@
 import { TfiCheck } from "react-icons/tfi";
+import { useRouter } from "next/navigation";
 import { BsGearFill, BsPersonFillAdd } from "react-icons/bs";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronDownIcon, ChevronsLeftIcon, PlusIcon } from "lucide-react";
@@ -20,6 +21,7 @@ import { authClient, useSignOutMutationOptions } from "@/lib/auth-client";
 
 export const UserButton = () => {
   const crpc = useCRPC();
+  const router = useRouter();
   
   const { isCollapsed, collapse } = useSidebar();
   const { data: session } = authClient.useSession();
@@ -164,7 +166,15 @@ export const UserButton = () => {
                     <div className="absolute -top-px inset-x-3 h-[1.25px] bg-border" />
                     <div
                       role="button"
-                      onClick={() => signOut.mutate()}
+                      onClick={() => 
+                        signOut.mutate({
+                          fetchOptions: {
+                            onSuccess: () => {
+                              router.refresh();
+                            },
+                          },
+                        })
+                      }
                       className="select-none transition cursor-pointer w-full flex rounded hover:bg-accent"
                     >
                       <div className="flex items-center gap-2 leading-[120%] w-full select-none h-7 text-sm px-2">
