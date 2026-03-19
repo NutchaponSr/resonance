@@ -1,9 +1,10 @@
 "use client";
 
+import { MenuIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
 import { useSidebar } from "@/components/contexts/sidebar-context";
-import { MenuIcon } from "lucide-react";
 
 export const Header = () => {
   const { isCollapsed, expand } = useSidebar();

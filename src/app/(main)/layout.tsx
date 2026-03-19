@@ -9,9 +9,6 @@ import { SidebarProvider } from "@/components/contexts/sidebar-context";
 import { AuthGuard } from "@/modules/auth/ui/components/auth-guard";
 import { OrganizationGuard } from "@/modules/organizations/ui/components/organization-guard";
 
-import { Main } from "./main";
-import { Header } from "./header";
-
 const Layout = async ({ children }: LayoutProps<"/">) => {
   prefetch(crpc.database.getMany.queryOptions());
   prefetch(crpc.organization.getOne.queryOptions());
@@ -27,10 +24,7 @@ const Layout = async ({ children }: LayoutProps<"/">) => {
             </Suspense>
           </HydrateClient>
           <div className="order-3 flex flex-col w-full overflow-hidden isolation-auto relative">
-            <Header />
-            <Main>
-              {children}
-            </Main>
+            {children}
           </div>
         </SidebarProvider>
       </OrganizationGuard>

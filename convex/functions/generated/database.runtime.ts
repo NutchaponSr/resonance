@@ -15,6 +15,7 @@ import type { ActionCtx, MutationCtx, QueryCtx } from './server';
 
 const procedureRegistry = {
   "getMany": ["query", typedProcedureResolver(api["database"]["getMany"], () => (require("../database") as Record<string, unknown>)["getMany"])],
+  "getOne": ["query", typedProcedureResolver(api["database"]["getOne"], () => (require("../database") as Record<string, unknown>)["getOne"])],
   "initial": ["mutation", typedProcedureResolver(api["database"]["initial"], () => (require("../database") as Record<string, unknown>)["initial"])],
 } as const;
 

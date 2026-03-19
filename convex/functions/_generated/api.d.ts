@@ -37,6 +37,7 @@ export declare const api: {
         updatedAt: number;
       }>
     >;
+    getOne: FunctionReference<"query", "public", { id: string }, any>;
     initial: FunctionReference<
       "mutation",
       "public",

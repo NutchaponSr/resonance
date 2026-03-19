@@ -7,6 +7,7 @@ import { authMutation, authQuery } from "../lib/crpc";
 import { database, page, property } from "./schema";
 import { Id } from "./_generated/dataModel";
 import { eq } from "better-convex/orm";
+import { CRPCError } from "better-convex/server";
 
 export const initial = authMutation
   .input(
@@ -35,7 +36,7 @@ export const initial = authMutation
         createdBy: ctx.userId as Id<"user">,
         lastEditedBy: ctx.userId as Id<"user">,
       })
-      .returning({ 
+      .returning({
         id: page.id,
         name: page.title,
       });
@@ -103,4 +104,32 @@ export const getMany = authQuery
     });
 
     return databases;
+  });
+
+export const getOne = authQuery
+  .input(
+    z.object({
+      id: z.string(),
+    })
+  )
+  .query(async ({ ctx, input }) => {
+    const database = await ctx.orm.query.database.findFirst({
+      where: {
+        id: { eq: input.id as Id<"database"> },
+      },
+      with: {
+        properties: {
+          limit: 10,
+        },
+      }
+    });
+
+    if (!database) {
+      throw new CRPCError({
+        code: "NOT_FOUND",
+        message: "Database not found",
+      });
+    }
+
+    return database;
   });

@@ -12,6 +12,7 @@ import type { tables } from "../functions/schema";
 export const api = {
   database: {
     getMany: createApiLeaf<"query", typeof import("../functions/database").getMany>(convexApi["database"]["getMany"], { auth: "required", type: "query" }),
+    getOne: createApiLeaf<"query", typeof import("../functions/database").getOne>(convexApi["database"]["getOne"], { auth: "required", type: "query" }),
     initial: createApiLeaf<"mutation", typeof import("../functions/database").initial>(convexApi["database"]["initial"], { auth: "required", type: "mutation" }),
   },
   organization: {

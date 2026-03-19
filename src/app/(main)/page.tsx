@@ -1,7 +1,11 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 import { useQuery } from "@tanstack/react-query";
+
+import { authClient } from "@/lib/auth-client";
+
+import { Main } from "./main";
+import { Header } from "./header";
 
 const Page = () => {
   const query = useQuery({
@@ -12,9 +16,14 @@ const Page = () => {
   })
 
   return (
-    <pre>
-      {JSON.stringify(query.data?.data?.members, null, 2)}
-    </pre>
+    <>
+      <Header />
+      <Main>
+        <pre>
+          {JSON.stringify(query.data?.data?.members, null, 2)}
+        </pre>
+      </Main>
+    </>
   );
 }
 
